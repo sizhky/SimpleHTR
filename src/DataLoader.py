@@ -51,7 +51,8 @@ class DataLoader:
 			chars = chars.union(set(list(gtText)))
 
 			# put sample into list
-			self.samples.append(Sample(gtText, fileName))
+			if len(gtText) > 6: # train only on large words
+				self.samples.append(Sample(gtText, fileName))
 
 		# split into training and validation set: 95% - 5%
 		splitIdx = int(0.95 * len(self.samples))
