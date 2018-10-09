@@ -202,6 +202,13 @@ class Model:
 		self.batchesTrained += 1
 		return lossVal
 
+	def validateBatch(self, batch):
+		"feed a batch into the NN to train it"
+		sparse = self.toSparse(batch.gtTexts)
+		rate = 0.01 if self.batchesTrained < 10 else (0.001 if self.batchesTrained < 10000 else 0.0001) # decay learning rate
+		lossVal, = self.sess.run([self.loss], { self.inputImgs : batch.imgs, self.gtTexts : sparse , self.seqLen : [Model.maxTextLen] * Model.batchSize, self.learningRate : rate} )
+		self.batchesTrained += 1
+		return lossVal
 
 	def inferBatch(self, batch):
 		"feed a batch into the NN to recngnize the texts"
