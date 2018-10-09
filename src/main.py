@@ -65,7 +65,8 @@ def validate(model, loader):
 	numWordTotal = 0
 	while loader.hasNext():
 		iterInfo = loader.getIteratorInfo()
-		print('Batch:', iterInfo[0],'/', iterInfo[1])
+		loss = model.validateBatch(batch)
+		print('Batch:', iterInfo[0],'/', iterInfo[1], 'Loss:', loss)
 		batch = loader.getNext()
 		recognized = model.inferBatch(batch)
 		
