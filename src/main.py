@@ -24,16 +24,16 @@ def train(model, loader):
 	earlyStopping = 500 # stop training after this number of epochs without improvement
 	while True:
 		epoch += 1
-		print('Epoch:', epoch)
+		print('Training Epoch:', epoch)
 
 		# train
-		print('Train NN')
 		loader.trainSet()
+		losses = []
 		while loader.hasNext():
 			iterInfo = loader.getIteratorInfo()
 			batch = loader.getNext()
-			loss = model.trainBatch(batch)
-			print('Batch:', iterInfo[0],'/', iterInfo[1], 'Loss:', loss, end='--')
+			loss = model.trainBatch(batch); losses.append(loss)
+		print('Training Epoch:', epoch, 'Loss:', sum(losses)/len(losses))
 
 		# validate
 		charErrorRate = validate(model, loader)
@@ -63,11 +63,12 @@ def validate(model, loader):
 	numCharTotal = 0
 	numWordOK = 0
 	numWordTotal = 0
+	losses = []
 	while loader.hasNext():
 		iterInfo = loader.getIteratorInfo()
 		batch = loader.getNext()
-		loss = model.validateBatch(batch)
-		print('Batch:', iterInfo[0],'/', iterInfo[1], 'Loss:', loss, end='--')
+		loss = model.validateBatch(batch); losses.append(loss)
+		# print('Batch:', iterInfo[0],'/', iterInfo[1], 'Loss:', loss, end='--')
 		recognized = model.inferBatch(batch)
 		
 		# print('Ground truth -> Recognized')	
@@ -82,6 +83,7 @@ def validate(model, loader):
 	# print validation result
 	charErrorRate = numCharErr / numCharTotal
 	wordAccuracy = numWordOK / numWordTotal
+	print('Avg. Loss', sum(losses)/len(losses))
 	print('Character error rate: %f%%. Word accuracy: %f%%.' % (charErrorRate*100.0, wordAccuracy*100.0))
 	return charErrorRate
 
