@@ -33,7 +33,7 @@ def train(model, loader):
 			iterInfo = loader.getIteratorInfo()
 			batch = loader.getNext()
 			loss = model.trainBatch(batch)
-			print('Batch:', iterInfo[0],'/', iterInfo[1], 'Loss:', loss, end='\r')
+			print('Batch:', iterInfo[0],'/', iterInfo[1], 'Loss:', loss, end='--')
 
 		# validate
 		charErrorRate = validate(model, loader)
@@ -67,7 +67,7 @@ def validate(model, loader):
 		iterInfo = loader.getIteratorInfo()
 		batch = loader.getNext()
 		loss = model.validateBatch(batch)
-		print('Batch:', iterInfo[0],'/', iterInfo[1], 'Loss:', loss, end='\r')
+		print('Batch:', iterInfo[0],'/', iterInfo[1], 'Loss:', loss, end='--')
 		recognized = model.inferBatch(batch)
 		
 		# print('Ground truth -> Recognized')	
