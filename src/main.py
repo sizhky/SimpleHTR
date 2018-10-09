@@ -65,19 +65,19 @@ def validate(model, loader):
 	numWordTotal = 0
 	while loader.hasNext():
 		iterInfo = loader.getIteratorInfo()
+		batch = loader.getNext()
 		loss = model.validateBatch(batch)
 		print('Batch:', iterInfo[0],'/', iterInfo[1], 'Loss:', loss)
-		batch = loader.getNext()
 		recognized = model.inferBatch(batch)
 		
-		print('Ground truth -> Recognized')	
+		# print('Ground truth -> Recognized')	
 		for i in range(len(recognized)):
 			numWordOK += 1 if batch.gtTexts[i] == recognized[i] else 0
 			numWordTotal += 1
 			dist = editdistance.eval(recognized[i], batch.gtTexts[i])
 			numCharErr += dist
 			numCharTotal += len(batch.gtTexts[i])
-			print('[OK]' if dist==0 else '[ERR:%d]' % dist,'"' + batch.gtTexts[i] + '"', '->', '"' + recognized[i] + '"')
+			# print('[OK]' if dist==0 else '[ERR:%d]' % dist,'"' + batch.gtTexts[i] + '"', '->', '"' + recognized[i] + '"')
 	
 	# print validation result
 	charErrorRate = numCharErr / numCharTotal
