@@ -56,9 +56,9 @@ class DataLoader:
 
 		# split into training and validation set: 95% - 5%
 		splitIdx = int(0.95 * len(self.samples))
-		splitIdx = 2000
+		splitIdx = 3000
 		self.trainSamples = self.samples[:splitIdx]
-		self.validationSamples = self.samples[splitIdx:splitIdx+1000]
+		self.validationSamples = self.samples[splitIdx:splitIdx+2000]
 		print(f'Training samples: {len(self.trainSamples)}, Validation Samples: {len(self.validationSamples)}')
 
 		# put words into lists
