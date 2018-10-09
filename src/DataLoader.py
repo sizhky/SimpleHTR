@@ -58,6 +58,7 @@ class DataLoader:
 		splitIdx = int(0.95 * len(self.samples))
 		self.trainSamples = self.samples[:splitIdx]
 		self.validationSamples = self.samples[splitIdx:]
+		print(f'Training samples: {len(self.trainSamples)}, Validation Samples: {len(self.validationSamples)}')
 
 		# put words into lists
 		self.trainWords = [x.gtText for x in self.trainSamples]
